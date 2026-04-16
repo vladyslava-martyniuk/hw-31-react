@@ -1,12 +1,12 @@
 import "./App.css";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { ContactsEditor } from "./components/ContactsEditor/ContactsEditor";
 import { ContactsList } from "./components/ContactsList/ContactsList";
 import { Filter } from "./components/Filter/Filter";
 
-import { addContact, deleteContact, setContacts } from "./redux/actions";
+import { addContact, deleteContact, setContacts, setFilter } from "./redux/actions";
 
 function App() {
   const dispatch = useDispatch();
@@ -14,7 +14,8 @@ function App() {
  
   const contacts = useSelector((state) => state.contacts);
 
-  const [filter, setFilter] = useState("");
+ 
+  const filter = useSelector((state) => state.filter);
 
  
   useEffect(() => {
@@ -67,7 +68,13 @@ function App() {
 
       <h2>Contacts</h2>
 
-      <Filter value={filter} onChange={(e) => setFilter(e.target.value)} />
+
+
+<Filter
+  value={filter}
+  onChange={(e) => dispatch(setFilter(e.target.value))}
+/>
+        
 
       <ContactsList
         contacts={filteredContacts}

@@ -1,7 +1,13 @@
-import { ADD_CONTACT, DELETE_CONTACT, SET_CONTACTS } from "./actions";
+import {
+  ADD_CONTACT,
+  DELETE_CONTACT,
+  SET_CONTACTS,
+  SET_FILTER, // 👈 додай
+} from "./actions";
 
 const initialState = {
   contacts: [],
+  filter: "", // 👈 додай
 };
 
 export const reducer = (state = initialState, action) => {
@@ -22,6 +28,12 @@ export const reducer = (state = initialState, action) => {
       return {
         ...state,
         contacts: action.payload,
+      };
+
+    case SET_FILTER: 
+      return {
+        ...state,
+        filter: action.payload,
       };
 
     default:
