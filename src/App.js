@@ -1,35 +1,18 @@
 import "./App.css";
-import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { ContactsEditor } from "./components/ContactsEditor/ContactsEditor";
 import { ContactsList } from "./components/ContactsList/ContactsList";
 import { Filter } from "./components/Filter/Filter";
 
-import { addContact, deleteContact, setContacts, setFilter } from "./redux/actions";
+import { addContact, deleteContact } from "./redux/contacts/contactsSlice";
+import { setFilter } from "./redux/filters/filtersSlice";
 
 function App() {
   const dispatch = useDispatch();
 
- 
   const contacts = useSelector((state) => state.contacts);
-
- 
   const filter = useSelector((state) => state.filter);
-
- 
-  useEffect(() => {
-    const savedContacts = localStorage.getItem("contacts");
-    if (savedContacts) {
-      dispatch(setContacts(JSON.parse(savedContacts)));
-    }
-  }, [dispatch]);
-
-
-  useEffect(() => {
-    localStorage.setItem("contacts", JSON.stringify(contacts));
-  }, [contacts]);
-
 
   const handleAddContact = ({ name, number }) => {
     const exists = contacts.some(
@@ -50,12 +33,10 @@ function App() {
     );
   };
 
-
   const handleDelete = (id) => {
     dispatch(deleteContact(id));
   };
 
- 
   const filteredContacts = contacts.filter((contact) =>
     contact.name.toLowerCase().includes(filter.toLowerCase())
   );
@@ -68,13 +49,10 @@ function App() {
 
       <h2>Contacts</h2>
 
-
-
-<Filter
-  value={filter}
-  onChange={(e) => dispatch(setFilter(e.target.value))}
-/>
-        
+      <Filter
+        value={filter}
+        onChange={(e) => dispatch(setFilter(e.target.value))}
+      />
 
       <ContactsList
         contacts={filteredContacts}
